@@ -320,4 +320,3 @@ def scytale_decipher(message, shift):
     return final
 
 
-
