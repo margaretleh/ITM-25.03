@@ -49,6 +49,7 @@ def shift_letter(letter, shift):
         letter = letter + shift
         letter = chr(letter)
         return letter
+    
 
 def caesar_cipher(message, shift):
     '''Caesar Cipher. 
@@ -74,9 +75,9 @@ def caesar_cipher(message, shift):
     messages= ""
     for i in message:
         i = ord(i)
-        if i != 32 and (i+shift)<90:
+        if i != 32 and (i+shift)<=90:
             messages = messages + (chr (i+shift))
-        elif i != 32 and (i+shift)>=90:
+        elif i != 32 and (i+shift)>90:
             messages = messages + (chr((i+shift)%90+64))
         else:
             messages = messages + " "
@@ -110,16 +111,21 @@ def shift_by_letter(letter, letter_shift):
     '''
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    letter=letter.upper()
-    letter_shift=letter_shift.upper()
+    letter = letter.upper()
+    letter = ord(letter)
+    letter_shift = letter_shift.upper()
     letter_shift = ord(letter_shift)-65
     
-    if letter == " ":
+    if letter == 32:
         return " "
-    else:
-        letter = ((ord(letter)+letter_shift)%90)+64
-        letter = chr (letter)
+    elif letter+letter_shift > 90:
+        letter = (letter+letter_shift)%90+64
+        letter = chr(letter)
         return letter
+    else:
+        letter = letter + letter_shift
+        letter = chr(letter)
+        return letter   
 
 def vigenere_cipher(message, key):
     '''Vigenere Cipher. 
@@ -152,23 +158,29 @@ def vigenere_cipher(message, key):
     '''
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    message = message.upper()
     key = key.upper()
     key = list(key)
+    message = message.upper()
     message = list(message)
     repeat=0
+    
     if (len(key)) != (len(message)):
         repeat = len(message)-len(key)
         for i in range(repeat):
             key.append(key[i])
-            
+    
     newList = []
     AsciiA = 65
     toString = ""
     for x, y in zip(message, key):
-        shift = ord(y) - AsciiA
-        position = AsciiA+ (ord(x) - AsciiA + shift) % 26
+        if (x != " "):
+            shift = ord(y) - AsciiA
+            position = AsciiA + (ord(x) - AsciiA + shift) % 26
+        else:
+            position = 32
+            
         newList.append(chr(position))
+       
     
     for i in newList:
         toString = toString + i
@@ -229,24 +241,25 @@ def scytale_cipher(message, shift):
     # Stay within the function. Only use the parameters as input. The function should return your answer.
     underscore = ""
     final = ""
+    message = message.upper()
 
     if len(message) % shift <= 0:
         for i in range(len(message)):
             index = (i//shift) + (len(message)//shift) * (i % shift)
             letter= message[index]
-            final = final + letter           
+            final = final + letter    
 
     else:
         for i in range(shift-(len(message) % shift)):
             underscore = underscore + "_"
-        
+            
         mesAndUnder = message + underscore
         lengthMU = len(mesAndUnder)
         
         for i in range(lengthMU):
             index = (i//shift) + (lengthMU//shift) * (i % shift)
             letter= mesAndUnder[index]    
-            final =  letter
+            final =  final + letter
     
     return final
 
