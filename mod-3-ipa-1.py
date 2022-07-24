@@ -38,17 +38,16 @@ def shift_letter(letter, shift):
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
     letter = letter.upper()
-    letter = ord(letter)
-    if letter == 32:
+    if letter == " ":
         return " "
-    elif letter+shift > 90:
-        letter = (letter+shift)%90+64
-        letter = chr(letter)
-        return letter
     else:
-        letter = letter + shift
-        letter = chr(letter)
-        return letter
+        alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        letterPosition = alphabet.index(letter)
+
+        if letterPosition+shift > 25:
+            return(alphabet[(letterPosition+shift)%26])
+        else:
+            return(alphabet[letterPosition+shift])
     
 
 def caesar_cipher(message, shift):
@@ -71,17 +70,22 @@ def caesar_cipher(message, shift):
     '''
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    message = (message).upper()
-    messages= ""
-    for i in message:
-        i = ord(i)
-        if i != 32 and (i+shift)<=90:
-            messages = messages + (chr (i+shift))
-        elif i != 32 and (i+shift)>90:
-            messages = messages + (chr((i+shift)%90+64))
-        else:
-            messages = messages + " "
-    return messages
+    message = message.upper()
+    alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    finalMessage = ""
+    
+    for i in range(len(message)):
+        letter = message[i]
+        if letter != " ":
+            letterPosition = alphabet.index(letter)
+            if letterPosition+shift > 25:
+                finalMessage = finalMessage + (alphabet[letterPosition+shift%26])
+            else:
+                finalMessage = finalMessage + (alphabet[letterPosition+shift])
+        elif letter == " ":
+            finalMessage = finalMessage + " "
+    
+    return finalMessage
 
 def shift_by_letter(letter, letter_shift):
     '''Shift By Letter. 
@@ -112,20 +116,19 @@ def shift_by_letter(letter, letter_shift):
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
     letter = letter.upper()
-    letter = ord(letter)
     letter_shift = letter_shift.upper()
-    letter_shift = ord(letter_shift)-65
-    
-    if letter == 32:
+    if letter == " ":
         return " "
-    elif letter+letter_shift > 90:
-        letter = (letter+letter_shift)%90+64
-        letter = chr(letter)
-        return letter
     else:
-        letter = letter + letter_shift
-        letter = chr(letter)
-        return letter   
+        alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        letterPosition = alphabet.index(letter)
+        shiftNumber = ord(letter_shift)-65
+        if letterPosition+ shiftNumber >= 26:
+            return(alphabet[(letterPosition + shiftNumber)%26])
+        else:
+            return(alphabet[letterPosition + shiftNumber])     
+
+
 
 def vigenere_cipher(message, key):
     '''Vigenere Cipher. 
@@ -318,5 +321,6 @@ def scytale_decipher(message, shift):
         final += message[patternList[k]]
     
     return final
+
 
 
