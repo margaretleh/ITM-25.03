@@ -60,10 +60,11 @@ def relationship_status(from_member, to_member, social_graph):
         return noRelationship
     elif isFollowing == 1 and isFollowed == 1:
         return friends
-    elif isFollowing == 1 and isFollowed == 0:
-        return follower
     elif isFollowing == 0 and isFollowed == 1:
+        return follower
+    elif isFollowing == 1 and isFollowed == 0:
         return followedBy
+
 
 
 def tic_tac_toe(board):
@@ -160,7 +161,7 @@ def tic_tac_toe(board):
     elif point0 == 1:
         winner = 'O'
     else:
-        winner = 'No Winner'
+        winner = 'NO WINNER'
 
     return winner
     
@@ -196,39 +197,31 @@ def eta(first_stop, second_stop, route_map):
     '''
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    route = list(route_map.keys())
-    countTime = 0
-    first = 0
-    second = 0
+
+    Block = list(route_map.keys())
+    StationOne = 0
+    StationTwo = 0
+    TimeSpent = 0
     
-    for i in range (len(route)):
-        if route [i] [1] == second_stop:
-            second = i
-        if route [i] [1] == first_stop:
-            first = i
-            countTime += route_map[route[i]] ['travel_time_mins']
-        
-    if first < second:       
-        while first != second:
-            first = first + 1
-            countTime += route_map[route[first]] ['travel_time_mins']
-            
-    elif first > second:
-        while first != second:
-            
-            first = first + 1          
-            if first >= len(route):
-                first = 0
-            countTime += route_map[route[first]] ['travel_time_mins']
-            
-    elif first == second:
-        
-        while True:
-            first = first + 1
-            if first >= len(route):
-                first = 0
-            countTime += route_map[route[first]] ['travel_time_mins']
-            if first == second:
-                break
+    for x in range(len(route_map)):
+        if first_stop == Block[x][0]:
+            StationOne = x
     
-    return countTime
+    for x in range(len(route_map)):
+        if second_stop == Block[x][1]:
+            StationTwo = x
+    
+    if StationOne > StationTwo:
+        for z in range(len(route_map)):
+            if z >= StationOne or z <= StationTwo:
+                UpdatedDict = route_map[Block[z]]
+                TimeSpent =  TimeSpent + UpdatedDict['travel_time_mins']
+    
+    if StationOne <= StationTwo:
+        for y in range(len(route_map)):
+            if y <= StationTwo and y >= StationOne:
+                if (StationOne == StationTwo or StationOne < StationTwo):
+                    UpdatedDict = route_map[Block[y]]
+                    TimeSpent = TimeSpent + UpdatedDict['travel_time_mins']
+    
+    return(TimeSpent)
