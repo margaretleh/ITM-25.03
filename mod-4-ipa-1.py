@@ -217,7 +217,7 @@ def eta(first_stop, second_stop, route_map):
                 UpdatedDict = route_map[Block[z]]
                 TimeSpent =  TimeSpent + UpdatedDict['travel_time_mins']
     
-    if StationOne <= StationTwo:
+    elif StationOne <= StationTwo:
         for y in range(len(route_map)):
             if y <= StationTwo and y >= StationOne:
                 if (StationOne == StationTwo or StationOne < StationTwo):
