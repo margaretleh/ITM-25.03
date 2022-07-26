@@ -76,14 +76,15 @@ def caesar_cipher(message, shift):
     
     for i in range(len(message)):
         letter = message[i]
-        if letter != " ":
-            letterPosition = alphabet.index(letter)
-            if letterPosition+shift > 25:
-                finalMessage = finalMessage + (alphabet[letterPosition+shift%26])
-            else:
-                finalMessage = finalMessage + (alphabet[letterPosition+shift])
-        elif letter == " ":
+        if letter == " ":
             finalMessage = finalMessage + " "
+        else:
+            letterPosition = alphabet.index(letter)
+            Updated = letterPosition+shift
+            if Updated > 25:
+                finalMessage = finalMessage + (alphabet[Updated%26])
+            else:
+                finalMessage = finalMessage + (alphabet[Updated])
     
     return finalMessage
 
